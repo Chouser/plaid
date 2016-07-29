@@ -1,0 +1,23 @@
+svg#plaid {
+    float: left;
+    width: 900px;
+    height: 900px;
+}
+
+#code {
+    white-space: pre;
+    font-family: monospace;
+    font-size: 150%;
+}
+
+rect:hover {
+    outline: 1px solid black;
+}
+
+.hilite {
+    background: #ffff33;
+}
+
+.hmore {
+    background: #ffaa00;
+}
