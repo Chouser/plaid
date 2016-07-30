@@ -12,6 +12,7 @@
 (defonce app-state (atom {:code-meta nil, :code nil}))
 
 (def plaid (dom/getElement "plaid"))
+(def ^:dynamic *update-rect* nil)
 
 (defn svg-node [tag-name]
   (js/document.createElementNS "http://www.w3.org/2000/svg" tag-name))
@@ -44,7 +45,6 @@
                                          (inc line)
                                          end-line
                                          (inc end-line)))]
-        (prn b2 b3 b4)
         (if (seq b3)
           (dom/append div nil
                       b1
@@ -76,7 +76,10 @@
       (set-attr :width w)
       (set-attr :height h)
       (set-attr :fill f)
-      (set-attr :fill-opacity (or fill-opacity 1)))))
+      (set-attr :fill-opacity (or fill-opacity 1)))
+    (when *update-rect*
+      (*update-rect* rect))
+    rect))
 
 (defn g [parent-node transform]
   (let [g (svg-node "g")]
@@ -119,18 +122,37 @@
 
 
 (defdraw [p]
-  (rect p 0 0 300 300 "#eebb66") ;; base color
+  (rect p 0 0 300 300 "#b79d80") ;; base color
 
-  (vc p 50
-      20
+  (doseq [x (range 0 100 2)]
+    (vc p x 0.5 "#cab196"))
 
+  (doseq [r (range 33 68 4)]
+    (hc p r 2 "#f2e6d9" 0.2)
+    (vc p r 2 "#f2e6d9" 0.2))
+  #_(vc p 65 2 "#f2e6d9" 0.2)
+  #_(hc p 65 2 "#f2e6d9" 0.2)
 
-      "#0000ff") ;; extra at the end
-  (hc p 50 20 (args :rgb 255 0 0) 0.5)
-  (doseq [x (range 20 81 6)
-          :when (not (< 40 x 60))]
-    (vc p x 2 "#ffffff" 0.3))
-  (rc p 50 50 10 10 "#ff55ff"))
+  (hc p 0 1 "#332211" 0.6)
+  (vc p 0 1 "#332211" 0.6)
+
+  (hc p 3 1 "#332211" 0.2)
+  (vc p 97 1 "#332211" 0.2)
+
+  #_(binding [*update-rect*
+            (fn [rect]
+              (set-attr rect :stroke "#332211")
+              (set-attr rect :stroke-width 0.3)
+              (set-attr rect :stroke-opacity 0.5))]
+    (rc p 50 50 95 95 "#332211" 0))
+
+  #_(let [weave (g p (args :rotate 45 0 0))]
+    (doseq [x (range 0 900 2)
+            y (range -450 450 10)]
+      (rect weave x y 1 5 "#ffffff" 0.2))
+    (doseq [x (range 1 900 2)
+            y (range -445 450 10)]
+      (rect weave x y 1 5 "#ffffff" 0.2))))
 
 
 
