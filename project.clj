@@ -5,7 +5,7 @@
 
   :min-lein-version "2.6.1"
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha11"]
                  [org.clojure/clojurescript "1.9.89"]
                  #_[org.clojure/core.async "0.2.385"
                   :exclusions [org.clojure/tools.reader]]
